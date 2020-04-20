@@ -3,7 +3,7 @@ Using hyperopt to independently train neural networks
 
 
 # Setup:
-The Project contains a Core Runner, Terminal and dump file. Also included is a .sbatch file to start the Runner. Theres also an optional small analyser code
+The Project contains a Core Runner and Terminal. Also included is a .sbatch file to start the Runner. Theres also an optional small analyser code
 
 ### For the Setup you need to Set a Place for the Trials object (technically the searchhistory) in the Terminal and Core Runner.
 
@@ -17,4 +17,9 @@ when its finished.
 # Core
 
 The Core contains the hyperparameter searchspace and is called for each Iteration. Each Core then makes one Iteration of the network. 
-The path of the Trials object has to be inserted at the start and the end of the File.
+The path of the Trials object has to be inserted at the start and the end of the File. While Searching, the runner can be called multiple times and ran simultaniously, as long as each iteration has a new name.
+
+The objective function is needed for optimizing more than one parameter. It may also be necessary to confirm that certain Variables are the type they should be to avoid unnecessary crashes (especially integers).
+
+
+
