@@ -9,6 +9,8 @@ For the Setup you need to Set a Place for the Trials object (technically the sea
 The network needs o be callable as a function and returning the value, the network should optimize for(Hyperopt always 
 tries to minimize this value). 
 
+There might be the need to recheck the number in the subprocess check
+
 # Terminal:
 
 The Terminal will coordinate all of the Runners. It is recmmended to run it, where its not canceled, although 
