@@ -14,11 +14,11 @@ def objective(args):
     #make sure parameters are the type they should if needed
     nLayers=int(nLayers)
     batch_size=int(2**batch_size)
-    l1=int(l1)
-    l2=int(l2)
-    l3=int(l3)
-    l4=int(l4)
-    l5=int(l5)
+    l1=int(2**l1)
+    l2=int(2**l2)
+    l3=int(2**l3)
+    l4=int(2**l4)
+    l5=int(2**l5)
     
     #Include crashing networks for hyperopt to learn
     try:
@@ -34,10 +34,10 @@ if os.path.exists('/path/Trials.p'):
 
 
 #Searchspace, for more options look at the hyperopt documentation     
-space = [hp.quniform('nLayers', 1, 5,1),
+space = [hp.quniform('nLayers', 1, 5,1), #actual number of layers is nLayers + 1
             hp.quniform('batch_size', 1, 11,1),hp.loguniform('learning_rate', -9.21034, 0),
-            hp.quniform('l1', 2, 256,1),hp.quniform('l2', 2, 256,1),
-            hp.quniform('l3', 2, 256,1),hp.quniform('l4', 2, 256,1),hp.quniform('l5', 2, 256,1)]
+            hp.quniform('l1', 0, 8,1),hp.quniform('l2', 0, 8,1),
+            hp.quniform('l3', 0, 8,1),hp.quniform('l4', 0, 8,1),hp.quniform('l5', 0, 8,1)]
 
 #setting gpu device, only needed for this specific network
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')  
