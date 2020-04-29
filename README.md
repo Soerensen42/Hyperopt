@@ -1,6 +1,9 @@
 # Hyperopt
 Using hyperopt to independently train neural networks
 
+The Example Data set i used can be found here:
+https://desycloud.desy.de/index.php/s/llbX3zpLhazgPJ6
+
 
 # Setup:
 The Project contains a Core Runner and Terminal. Also included is a .sbatch file to start the Runner. Theres also an optional small analyser code (wip)
