@@ -4,7 +4,8 @@ from hyperopt import fmin, tpe, hp, Trials, STATUS_OK
 from FCN.py import *
 
 
-
+#setting local variable (only used for this specific network)
+l1,l2,l3,l4,l5,r1,r2,r3,r4,r5=1
 
 def objective(args):
     #handling the arguments
@@ -20,14 +21,13 @@ def objective(args):
     l5=int(l5)
     
     #Include crashing networks for hyperopt to learn
-    #replace Network with your network function 
     try:
         res = Iteration(nLayers, batch_size, learning_rate, l1,l2,l3,l4,l5)
         return(res) 
     except:
         return(0.5)
 
-#loading into the search history, if it exists, change path to match Trials location
+#loading into the search history if it exists. change path to match Trials location
 trials_one=Trials()
 if os.path.exists('/path/Trials.p'):
     trials_one = pickle.load(open("path/Trials.p", "rb"))
