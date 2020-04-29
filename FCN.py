@@ -12,7 +12,7 @@ import pandas
 from sklearn.metrics import roc_curve
 from sklearn.metrics import roc_auc_score
 
-def Load:
+def Load():
   store_train = pandas.HDFStore('path/train.h5')
   df_train = store_train.select("table", stop = 2000)  
   store_train.close()
