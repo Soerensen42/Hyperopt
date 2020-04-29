@@ -1,5 +1,3 @@
-#!/bin/bash
-
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
@@ -9,7 +7,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torchvision
 
-import json
 import statistics
 import pandas
 
@@ -47,7 +44,7 @@ def Load:
 
   print('loading done')
 
-class FCN(nn.Module,l1,l2,l3,l4,l5,r1,r2,r3,r4,r5):
+class FCN(nn.Module):
     def __init__(self):
         super(FCN, self).__init__()
                 
