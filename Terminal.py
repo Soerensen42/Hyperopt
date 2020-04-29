@@ -32,9 +32,8 @@ while len(list(trials_one)) <100: #suspec to change to ~100 again
     try:
         trials_one = pickle.load(open("/path/Trials.p", "rb"))
     except:
-        time.sleep(30)
-        trials_one = pickle.load(open("/path/Trials.p", "rb")) #evade double open error       
-    time.sleep(30)    
+        time.sleep(30)    
+    time.sleep(30)                                                            
 
 print("waiting for everything to finish")
 while filler_2 == 0: #copy and paste the if check (if ... and ... and ...) for as many cores as you're running
