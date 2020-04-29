@@ -3,7 +3,7 @@ Using hyperopt to independently train neural networks
 
 
 # Setup:
-The Project contains a Core Runner and Terminal. Also included is a .sbatch file to start the Runner. Theres also an optional small analyser code
+The Project contains a Core Runner and Terminal. Also included is a .sbatch file to start the Runner. Theres also an optional small analyser code (wip)
 
 For the Setup you need to Set a Place for the Trials object (technically the searchhistory) in the Terminal and Core Runner.
 The network needs o be callable as a function and returning the value, the network should optimize for(Hyperopt always 
@@ -13,7 +13,7 @@ There might be the need to recheck the number in the subprocess check
 
 # Terminal:
 
-The Terminal will coordinate all of the Runners. It is recmmended to run it, where its not canceled, although 
+The Terminal will coordinate all of the Runners. It is recommended to run it where its not canceled, although 
 there are checkpoints implemented if it does. It is not very taxing computationwise. There is a loop sending jobs, i chose 
 10 simultanious runners. But this can be easily varied. Just be sure to give every job a unique name, so the loop can detect 
 when its finished.
