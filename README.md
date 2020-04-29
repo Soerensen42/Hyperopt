@@ -9,7 +9,7 @@ https://desycloud.desy.de/index.php/s/llbX3zpLhazgPJ6
 The Project contains a Core Runner and Terminal. Also included is a .sbatch file to start the Runner. Theres also an optional small analyser code (wip)
 
 For the Setup you need to Set a Place for the Trials object (technically the searchhistory) in the Terminal and Core Runner.
-The network needs o be callable as a function and returning the value, the network should optimize for(Hyperopt always 
+The network needs to be callable as a function and returning the value, the network should optimize for(Hyperopt always 
 tries to minimize this value). 
 
 There might be the need to recheck the number in the subprocess check
