@@ -5,7 +5,7 @@ from FCN.py import *
 
 
 #setting local variable (only used for this specific network)
-l1,l2,l3,l4,l5,r1,r2,r3,r4,r5=1
+l1=l2=l3=l4=l5=r1=r2=r3=r4=r5=1
 
 def objective(args):
     #handling the arguments
