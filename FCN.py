@@ -14,17 +14,17 @@ from sklearn.metrics import roc_curve
 from sklearn.metrics import roc_auc_score
 
 def Load:
-  store_train = pandas.HDFStore('/beegfs/desy/user/gerberni/TopTaggingDataSet/train.h5')
+  store_train = pandas.HDFStore('path/train.h5')
   df_train = store_train.select("table", stop = 2000)  
   store_train.close()
   df_train_labels = df_train["is_signal_new"].to_numpy()
 
-  store_val = pandas.HDFStore('/beegfs/desy/user/gerberni/TopTaggingDataSet/val.h5')
+  store_val = pandas.HDFStore('path/val.h5')
   df_val = store_val.select("table", stop = 2000)
   store_val.close()
   df_val_labels = df_val["is_signal_new"].to_numpy()
 
-  store_test = pandas.HDFStore('/beegfs/desy/user/gerberni/TopTaggingDataSet/test.h5')
+  store_test = pandas.HDFStore('path/test.h5')
   df_test = store_test.select("table", stop = 2000)   
   store_test.close()
 
