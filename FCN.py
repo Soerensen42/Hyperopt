@@ -7,7 +7,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torchvision
 
-import statistics
 import pandas
 
 from sklearn.metrics import roc_curve
