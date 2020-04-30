@@ -48,14 +48,10 @@ class FCN(nn.Module):
         super(FCN, self).__init__()
                 
         self.fc1 = nn.Linear(80,l1)
-        if r2 == 1:
-            self.fc2 = nn.Linear(l1,l2)
-        if r3 == 1:
-            self.fc3 = nn.Linear(l2,l3)
-        if r4 == 1:    
-            self.fc4 = nn.Linear(k3,k4)
-        if r5 == 1:    
-            self.fc5 = nn.Linear(k4,k5)
+        self.fc2 = nn.Linear(l1,l2)        
+        self.fc3 = nn.Linear(l2,l3)           
+        self.fc4 = nn.Linear(k3,k4)         
+        self.fc5 = nn.Linear(k4,k5)
         self.fc6 = nn.Linear(k5,2)
         
         
