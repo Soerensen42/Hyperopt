@@ -22,10 +22,10 @@ else:
 filler = 0
 
 #continiously check what jobs are running
-while len(list(trials_one)) <100: #suspec to change to ~100 again
+while len(list(trials_one)) <100: #Amount of searches
     
     #check if job is running, to create multiple runners just copy and paste the check, change USERNAME and NUMBER
-    if len(subprocess.check_output("squeue -u USERNAME --name=HP-Runner_Number", shell=True))== 85:
+    if len(subprocess.check_output("squeue -u USERNAME --name=HP-Runner_Number", shell=True))== 85: #empty list is 85 characters long
         os.system('sbatch HP_Optimizer_NUMBER.sh')
     
     #get the trials object to track progress, try to avoid checking while saving errors
