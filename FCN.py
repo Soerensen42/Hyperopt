@@ -56,6 +56,12 @@ class FCN(nn.Module):
         
         
     def forward(self, x): 
+        #Running through all used Layers and fitting them in with a relu function
+        for k in range(1,5):
+            if r{}.format(k) == 1:
+                x = F.relu(self.fc{}.format(k)(x))
+        #old version of this
+        '''        
         if r1 == 1:
             x = F.relu(self.fc1(x))
         if r2 == 1:    
@@ -66,16 +72,35 @@ class FCN(nn.Module):
             x = F.relu(self.fc4(x))
         if r5 == 1:   
             x = F.relu(self.fc5(x))
-                
+        '''
+        #Using a softmax on the last layer to fit it between 0...1
         x = F.softmax(self.fc6(x))
         
         return x
 
 def Iteration(nLayers, batch_size, learning_rate, l1,l2,l3,l4,l5):
+    #setting Variables
     n_epochs = 10    
     test_accs = []
+    #Confirm variables are they right type 
+    nLayers=int(nLayers)
+    batch_size=int(batch_size)
+    l1=int(l1)
+    l2=int(l2)
+    l3=int(l3)
+    l4=int(l4)
+    l5=int(l5)
     r1=r2=r3=r4=r5=1
     
+    #only using as many layers as nLayers suggests and setting l5 to connect to the last used layer 
+    for i in range (1,4):
+        if nLayers == {}.format(i):
+          for a in range (5-i,5):
+              r{}.format(i)=0
+          l5 = l{}.format(i)    
+          
+    #old version of this      
+    '''
     if nLayers == 1:
         r2=r3=r4=r5=0
         l5=l1
@@ -88,15 +113,18 @@ def Iteration(nLayers, batch_size, learning_rate, l1,l2,l3,l4,l5):
     if nLayers == 4:
         r5=0 
         l5=l4 
-        
+    '''    
+    
+    #Handling the model  over to the GPU
     model = FCN().to(device)
-
+    
+    #Setting up x and y values
     x_train = vectors_train
     y_train = vectors_train_labels
-    
     x_val = vectors_val    
     y_val = vectors_val_labels
     
+    #defining what optimizer to use (standart is Adam)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
     train_examples = x_train.shape[0]
