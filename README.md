@@ -1,7 +1,7 @@
 # Hyperopt
 Using hyperopt to independently train neural networks
 
-The Example Data set i used can be found here:
+The Example Data set i used and some explaination about it can be found here:
 https://desycloud.desy.de/index.php/s/llbX3zpLhazgPJ6
 https://docs.google.com/document/d/1Hcuc6LBxZNX16zjEGeq16DAzspkDC4nDTyjMp1bWHRo/edit
 
