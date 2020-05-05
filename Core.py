@@ -8,21 +8,9 @@ from FCN.py import *
 l1=l2=l3=l4=l5=r1=r2=r3=r4=r5=1
 
 def objective(args):
-    #handling the arguments
-    nLayers, batch_size, learning_rate, l1, l2, l3, l4, l5 = args
-    
-    #make sure parameters are the type they should if needed
-    nLayers=int(nLayers)
-    batch_size=int(2**batch_size)
-    l1=int(2**l1)
-    l2=int(2**l2)
-    l3=int(2**l3)
-    l4=int(2**l4)
-    l5=int(2**l5)
-    
     #Include crashing networks for hyperopt to learn
     try:
-        res = Iteration(nLayers, batch_size, learning_rate, l1,l2,l3,l4,l5)
+        res = Iteration(*args)
         return(res) 
     except:
         return(0.5)
