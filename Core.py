@@ -3,6 +3,11 @@ import sys
 from hyperopt import fmin, tpe, hp, Trials, STATUS_OK
 from FCN.py import *
 
+#getting parameters
+from params import *
+Parameters={}
+set_params()
+
 def objective(args):
     #include Crashes in search history (for things like hardware limitations)
     try:
@@ -16,14 +21,6 @@ def objective(args):
 trials_one=Trials()
 if os.path.exists('./History/Trials.p'):
     trials_one = pickle.load(open("./History/Trials.p", "rb"))
-
-
-#Searchspace, for more options look at the hyperopt documentation    
-##########outsorce to params file###########
-space = [hp.quniform('nLayers', 1, 5,1), #actual number of layers is nLayers + 1
-            hp.quniform('batch_size', 1, 11,1),hp.loguniform('learning_rate', -9.21034, 0),
-            hp.quniform('l1', 1, 256,8),hp.quniform('l2',  1, 256,8),
-            hp.quniform('l3',  1, 256,8),hp.quniform('l4', 1, 256,8),hp.quniform('l5',  1, 256,8)]
 
 #Moving everything to gpu, only needed for this specific network, maybe useful for others
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')  
