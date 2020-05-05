@@ -11,7 +11,8 @@ def Set_params():
                           hp.loguniform('learning_rate', np.log(0.0001), np.log(1)),#how fast the Network learns aka how fast it accepts new ideas and purposely makes mistakes to possibly make a new discovery
                           hp.quniform('nodes', 1, 256,8)#Amount of nodes in each Layer
                           ]
-
-            
-    Parameters["Epochs_FCN"]=10  #Amound of Epochs the FCN TRains for
+    Parameters["Quick"]=1 #Activating(1) or deactivating(0) Quick mode. This will Train etc. only with 2000 Events
+                          #recommended for setup and debugging, very fast              
+    Parameters["data_location"]="./data"  #Path where all 3 files are saved       
+    Parameters["Epochs_FCN"]=10  #Amound of Epochs the FCN Trains for
 #    Parameters["Iterations"]= 100 #Amount of total iterations the Optimization progress makes 
