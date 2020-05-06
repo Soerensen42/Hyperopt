@@ -16,16 +16,17 @@ if os.path.exists('/path/Trials.p'):
     trials_one = pickle.load(open("/path/Trials.p", "rb"))
     hp_opt = len(list(trials_one))  
 else:
+    #else: create  new Trials object/location
     trials_one = Trials()
     pickle.dump(trials_one, open("/path/Trials.p", "wb"))  
-    
-filler = 0
 
 #continiously check what jobs are running
 while len(list(trials_one)) <100: #Amount of searches
     
-    #check if job is running, to create multiple runners just copy and paste the check, change USERNAME and NUMBER
+    #check if job is running
+    #Set the number of simultanious runners
     if len(subprocess.check_output("squeue -u USERNAME --name=HP-Runner_Number", shell=True))== 85: #empty list is 85 characters long
+        #The sbatch just calls a Core.py
         os.system('sbatch HP_Optimizer_NUMBER.sh')
     
     #get the trials object to track progress, try to avoid checking while saving errors
