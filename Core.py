@@ -14,10 +14,10 @@ def objective(args):
         res = Iteration(*args)
         return(res) 
     except:
-        #forwarding worst possible result to hyperopt when iteration crashes
+        #forwarding worst possible result to hyperopt when iteration crashes (since im optimizing for auc score its 0.5)
         return(0.5)
 
-#loading into the search history if it exists. change path to match Trials location
+#loading into the search history if it exists.
 trials_one=Trials()
 if os.path.exists('./History/Trials.p'):
     trials_one = pickle.load(open("./History/Trials.p", "rb"))
