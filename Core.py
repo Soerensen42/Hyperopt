@@ -19,7 +19,7 @@ def set_params():
                           
     Parameters["Quick"]=1 #Activating(1) or deactivating(0) Quick mode. This will Train etc. only with 2000 Events
                           #recommended for setup and debugging, very fast              
-    Parameters["data_location"]="/beegfs/desy/user/gerberni/TopTaggingDataSet"  #Path where all 3 files are saved       
+    Parameters["data_location"]="./data"  #Path where all 3 files are saved       
     Parameters["Epochs_FCN"]=10  #Amound of Epochs the FCN Trains for
     Parameters["Iterations"]= 6 #Amount of total iterations the Optimization progress makes, set to 1000 if total number is irrelevant 
 
