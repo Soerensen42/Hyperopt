@@ -73,24 +73,17 @@ class FCN(nn.Module):
         
         
     def forward(self, x): 
-      	# Activating the amound of Layers the variable nLayers dictates with a relu function
-        if r1 == 1:
-            x = F.relu(self.fc1(x))
-        if r2 == 1:    
-            x = F.relu(self.fc2(x))
-        if r3 == 1:
-            x = F.relu(self.fc3(x))
-        if r4 == 1:    
-            x = F.relu(self.fc4(x))
-        if r5 == 1:   
-            x = F.relu(self.fc5(x))
-            
+      	# Activating the First Layer
+        x = F.relu(self.fcstart(x))
+        # Activating the amount of Layers the variable nLayers dictates with a relu function
+        if nLayers > 0:
+            for i in range (1,nLayers):   
+                x = F.relu(self.fcmid(x))
         #Using a softmax on the last layer to fit result between 0 and 1
         x = F.softmax(self.fc6(x))
-        
         return x
 
-def Iteration(nLayers, batch_size, learning_rate, l1,l2,l3,l4,l5):
+def Iteration(nLayers, batch_size, learning_rate,Nodes):
     #setting Variables
     n_epochs = Parameters["Epochs_FCN"]   
     test_accs = []
