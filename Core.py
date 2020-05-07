@@ -25,8 +25,7 @@ def set_params():
 
 ####################Start of the Script##########################
 
-Parameters ={}
-set_params()
+Parameters = set_params()
 
 def objective(args):
     #include Crashes in search history (for things like hardware limitations)
