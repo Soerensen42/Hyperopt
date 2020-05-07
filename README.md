@@ -19,6 +19,8 @@ Changing the Network:
 -Remove both Code lines Specific to the example.
 -Make sure the network selected hyperparamters are the right type, most fitting would be at the start of the function.
 
+When all is done, run the Terminal.sh file
+
 # Core
 
 The Core is called for each Iteration which then does one training of the network. 
