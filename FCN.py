@@ -67,12 +67,9 @@ class FCN(nn.Module):
         super(FCN, self).__init__()
         
         #setting the FCN Layers, 
-        self.fc1 = nn.Linear(80,l1)
-        self.fc2 = nn.Linear(l1,l2)        
-        self.fc3 = nn.Linear(l2,l3)           
-        self.fc4 = nn.Linear(l3,l4)         
-        self.fc5 = nn.Linear(l4,l5)
-        self.fc6 = nn.Linear(l5,2)
+        self.fcstart = nn.Linear(80,Nodes)
+        self.fcmid = nn.Linear(Nodes,Nodes)
+        self.fcend = nn.Linear(Nodes,2)
         
         
     def forward(self, x): 
@@ -95,31 +92,12 @@ class FCN(nn.Module):
 
 def Iteration(nLayers, batch_size, learning_rate, l1,l2,l3,l4,l5):
     #setting Variables
-    n_epochs = 10    
+    n_epochs = Parameters["Epochs_FCN"]   
     test_accs = []
     #Confirm variables are they right type 
     nLayers=int(nLayers)
     batch_size=int(batch_size)
-    l1=int(l1)
-    l2=int(l2)
-    l3=int(l3)
-    l4=int(l4)
-    l5=int(l5)
-    r1=r2=r3=r4=r5=1
-    
-    #only using as many layers as nLayers suggests and setting l5 to connect to the last used layer      
-    if nLayers == 1:
-        r2=r3=r4=r5=0
-        l5=l1
-    if nLayers == 2:
-        r3=r4=r5=0
-        l5=l2
-    if nLayers == 3:
-        r4=r5=0
-        l5=l3
-    if nLayers == 4:
-        r5=0 
-        l5=l4    
+    Nodes=int(Nodes) 
     
     #Handing the model  over to the GPU
     model = FCN().to(device)
