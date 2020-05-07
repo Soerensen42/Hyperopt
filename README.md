@@ -9,10 +9,10 @@ The Process uses the Slurm job submitting system, for other solutions look into 
 
 
 # Setup:
-The Project contains a Core Runner and Terminal. Also included is a .sbatch file to start the Runner. Theres also an optional small analyser code (wip). The Optimizer implements a fully connected network, so its usable out of the box.
+The Project contains a Core Runner and Terminal.sh. Theres also an optional small analyser code (wip). The Optimizer implements a fully connected network, so its usable out of the box.
 
 First Setup:
-Download all the files and set up a "History" folder. Change the Data path in the Params file. It is currently set to look into a folder named "data" with the 3 Data sets. Setup the .batch file to handle the Jobs. I do not recommend setting the job to send an email when finished since that would lead to a bit more than 100 emails. The used environment can be found in FCN.env (wip).
+Download all the files and set up a "History" folder (it should be empty). Change the Data path on top of the Core.py file. It is currently set to look into a folder named "data" with the 3 Data sets. Setup the .batch file to handle the Jobs. It is possible to set The script to send an email when finished. This will only send one. The used environment can be found in FCN.yml.
 
 .sh File:
 You do have to change the .sh file manually:
@@ -23,8 +23,8 @@ You do have to change the .sh file manually:
 When all is done start Terminal.sh
 
 Changing the Network:
--Modify the Network Training to be callable as a function returning the value that should be optimised for. (remember optimization always tries to minimize so for auc score would be something like return(1-accuracy))
--Remove both Code lines Specific to the example.
+-Modify the Network Training to be callable as a function returning the value that should be optimised for. (remember optimization always tries to minimize so for accuracy would be something like return(1-accuracy))
+-Remove both Code lines Specific to the example in Core.py.
 -Make sure the network selected hyperparamters are the right type, most fitting would be at the start of the function.
 
 Reset:
@@ -38,9 +38,9 @@ Currently best Paraeters set can be found in the Results.txt file. There is also
 The Core is called for each Iteration which then does one training of the network. 
 While Searching, the runner can and should be called multiple times and ran simultaniously.
 
-#Paramters
+# Paramters
 
-The Parameters file is used to set all the Parameters in one place. Of special interest should be the searchspace definition:
+The Parameters can be set on top of the Core.py file. Of special interest should be the searchspace definition:
 While it is possible to set a large amount of search parameters keep in mind, that having, for example 5 different variables that all can be one of 256 values might take a few more runs to optimize correctly. That being said the optimizer should recognize less important Values and not focus on them too much.
 
 Setting the search space is possible with:
@@ -54,7 +54,7 @@ https://github.com/hyperopt/hyperopt/wiki/FMin
 
 There is also a Quick scan option for setup and debugging. This uses an extremely small data sample for the FCN.
 
-Since the .sh script and the params script cant communicate, there is the option to set a maximum amound of searches in the params file. when the number is reached every Core.py script will isntantly terminate after starting, since the .sh file doesnt have the option to view the search history. If there is no reason to stick exactly to the amount of searches set in the .sh file just set it to a high number (ex. 1000).
+Since the .sh script and the Core.py script cant communicate, there is the option to set a maximum amount of searches in the params file. When the number is reached, every Core.py script will isntantly terminate after starting. If there is no reason to stick exactly to the amount of searches set in the .sh file, just set it to a high number (ex. 1000).
 
 # Fully Connected Network (FCN)
 
