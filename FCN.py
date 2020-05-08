@@ -63,13 +63,14 @@ def Load():
   print('loading done')
 
 class FCN(nn.Module):
-    def __init__(self):
+    def __init__(self,Nodes,nLayers):
         super(FCN, self).__init__()
         
         #setting the FCN Layers, 
         self.fcstart = nn.Linear(80,Nodes)
         self.fcmid = nn.Linear(Nodes,Nodes)
         self.fcend = nn.Linear(Nodes,2)
+        self.nLayers = nLayers
         
         
     def forward(self, x): 
@@ -77,23 +78,25 @@ class FCN(nn.Module):
         x = F.relu(self.fcstart(x))
         # Activating the amount of Layers the variable nLayers dictates with a relu function
         if nLayers > 0:
-            for i in range (1,nLayers):   
+            for i in range (1,self.nLayers):   
                 x = F.relu(self.fcmid(x))
         #Using a softmax on the last layer to fit result between 0 and 1
-        x = F.softmax(self.fc6(x))
+        x = F.softmax(self.fcend(x))
         return x
 
 def Iteration(nLayers, batch_size, learning_rate,Nodes,Parameters):
+    #Moving everything to gpu
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')  
+    #print(device) #debug
     #setting Variables
     n_epochs = Parameters["Epochs_FCN"]   
-    test_accs = []
     #Confirm variables are they right type 
     nLayers=int(nLayers)
     batch_size=int(batch_size)
     Nodes=int(Nodes) 
     
     #Handing the model  over to the GPU
-    model = FCN().to(device)
+    model = FCN(Nodes,nLayers).to(device)
     
     #Setting up x and y values
     x_train = vectors_train
@@ -135,7 +138,7 @@ def Iteration(nLayers, batch_size, learning_rate,Nodes,Parameters):
             net_out = model(x)
             
             #calcualting the loss
-            loss = criterion(net_out,y)
+            loss = nn.CrossEntropyLoss((net_out,y)
             
             #creating new model (learning)
             loss.backward()
@@ -149,8 +152,7 @@ def Iteration(nLayers, batch_size, learning_rate,Nodes,Parameters):
     y_pred_test_model = model(torch.tensor(x_test,dtype=torch.float).to(device)).detach().cpu()
     y_pred_test = nn.Softmax(dim=1)(y_pred_test_model).numpy()
     test_acc = sum(y_test == np.argmax(y_pred_test,axis=1)) / y_test.shape[0]
-    #saving the test accuracy to pass on
-    test_accs.append(test_acc)
+    
     
     #returning as 1-accuracy as hyperopt tries to minimize
-    return(1-max(test_accs)) 
+    return(1-test_acc) 
