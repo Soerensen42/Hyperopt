@@ -1,4 +1,4 @@
-name: customConda
+name: Hyperopt-env
 channels:
   - jmcmurray
   - conda-forge
@@ -125,5 +125,4 @@ dependencies:
     - traitlets==4.3.3
     - urllib3==1.25.7
     - wcwidth==0.1.7
-prefix: /beegfs/desy/user/gerberni/conda/envs/customConda
 
