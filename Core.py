@@ -1,7 +1,7 @@
 import pickle
 import sys
 from hyperopt import fmin, tpe, hp, Trials, STATUS_OK,trials_from_docs
-from FCN import *
+from FCN import * #implements the FCN model change, when swapping networks
 import os
 import numpy as np
 
@@ -21,7 +21,7 @@ Parameters["Quick"]=1 #Activating(1) or deactivating(0) Quick mode. This will Tr
                       #recommended for setup and debugging, very fast              
 Parameters["data_location"]="./data"  #Path where all 3 files are saved       
 Parameters["Epochs_FCN"]=10  #Amound of Epochs the FCN Trains for
-Parameters["Iterations"]= 100 #Amount of total iterations the Optimization progress makes, set to 1000 if total number is irrelevant 
+Parameters["WorstCase"]=1 #return the worst possible outcome for your network
 ####################Start of the Script##########################
 
 def objective(args):
@@ -31,21 +31,12 @@ def objective(args):
         return(res) 
     except:
         #forwarding worst possible result to hyperopt when training crashes (since im optimizing for 1-Accuracy its 1)
-        return(1)
+        return(Parameters["WorstCase"])
 
 #loading into the search history if it exists.
 trials_one=Trials()
 if os.path.exists('./History/Trials.p'):
     trials_one = pickle.load(open("./History/Trials.p", "rb"))
-
-if Parameters["Iterations"] < len(list(trials_one)):
-    sys.exit()
-#Moving everything to gpu, only needed for this specific network, maybe useful for others
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')  
-#print(device) #debug
-
-#Setting The Criterions, specific to this Network
-criterion = nn.CrossEntropyLoss()
 
 #running one Iteration of the Network
 best = fmin(objective,Parameters["space"],trials=trials_one,algo = tpe.suggest,max_evals=len(list(trials_one))+1) 
