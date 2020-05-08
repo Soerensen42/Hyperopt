@@ -9,10 +9,14 @@ The Process uses the Slurm job submitting system, for other solutions look into 
 
 
 # Setup:
-The Project contains a Core Runner and Terminal.sh. Theres also an optional small analyser code (wip). The Optimizer implements a fully connected network, so its usable out of the box.
+The Project contains a Core Runner and Terminal.sh. Theres also an optional small analyser code (wip). The Optimizer implements a fully connected network, so its usable out of the box. The Terminal File is Maxwell specific, if youre not using Slurm or Maxwell this will need some tinkering.
 
 First Setup:
-Download all the files and set up a "History" folder (it should be empty). Change the Data path on top of the Core.py file. It is currently set to look into a folder named "data" with the 3 Data sets. Setup the .batch file to handle the Jobs. It is possible to set The script to send an email when finished. This will only send one. The used environment can be found in FCN.yml.
+Download all the files and set up a "History" folder (it should be empty). Change the Data path on top of the Core.py file. It is currently set to look into a folder named "data" with the 3 Data sets. Setup the .batch file to handle the Jobs. It is possible to set The script to send an email when finished. This will only send one. The used environment can be found in FCN.yml. And installes with
+'''
+conda env create -f Hyperopt-env.yml
+'''
+
 
 .sh File:
 You do have to change the .sh file manually:
@@ -20,7 +24,7 @@ You do have to change the .sh file manually:
 -USER and NETWORK to ur username and folder with the network (line 26)
 -The amount of searches if needed (line 12)
 
-When all is done start Terminal.sh
+When all is done start with '''sbatch Terminal.sh'''
 
 Changing the Network:
 -Modify the Network Training to be callable as a function returning the value that should be optimised for. (remember optimization always tries to minimize so for accuracy would be something like return(1-accuracy))
@@ -28,7 +32,10 @@ Changing the Network:
 -Make sure the network selected hyperparamters are the right type, most fitting would be at the start of the function.
 
 Reset:
-To Start another search either delete the Trials.p and Results.txt files or rename them.
+To Start another search either delete the Trials.p and Results.txt files or rename them. If The Terminal crashes somehow You need to adapt the maximum amounts of jobs the Terminal issues now. (already finished jobs is gained by looking at the Trials object)
+'''
+print(len(list(Trials)))
+'''
 
 Results:
 Currently best Paraeters set can be found in the Results.txt file. There is also the possibility to play with the Trials.p for more analyzation options. There is an example in the Analyzer.py file (wip)
