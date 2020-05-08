@@ -21,7 +21,7 @@ def set_params():
                           #recommended for setup and debugging, very fast              
     Parameters["data_location"]="./data"  #Path where all 3 files are saved       
     Parameters["Epochs_FCN"]=10  #Amound of Epochs the FCN Trains for
-    Parameters["Iterations"]= 6 #Amount of total iterations the Optimization progress makes, set to 1000 if total number is irrelevant 
+    Parameters["Iterations"]= 100 #Amount of total iterations the Optimization progress makes, set to 1000 if total number is irrelevant 
 
 ####################Start of the Script##########################
 
