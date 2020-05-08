@@ -5,12 +5,12 @@
 #SBATCH --nodes=1                       #Amount of nodes given to the Job. Only increase if Network is VERY computation heavy
 #SBATCH --job-name HP-Core-Runner         # give job unique name
 #SBATCH --output ./Training/training-%j.out      # terminal output
+#SBATCH --constraint=GPU  #Only takes GPU machines
+#SBATCH --array = 0-100%10 #Starts the same job multiple times: Starting amount-total amount%Parallel running jobs #allgpu supports maximum of 10 parallel jobs, that should be more than enough
 # --error ./Training/training-%j.err  #Saves a file with the errors, interesting for debugging
 # --mail-type END #sends a mail after finishing the job, currently off
 # --mail-user mail@url.de #i do not reccomend turning this on
-#SBATCH --constraint=GPU  #Only takes GPU machines
-#SBATCH --array = 0-100%10 #Starts the same job multiple times: Starting amount-total amount%Parallel running jobs
-                         #allgpu supports maximum of 10 parallel jobs, that should be more than enough
+
  
 
  
