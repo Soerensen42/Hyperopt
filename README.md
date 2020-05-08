@@ -24,7 +24,10 @@ You do have to change the .sh file manually:
 -USER and NETWORK to ur username and folder with the network (line 26)
 -The amount of searches if needed (line 12)
 
-When all is done start with ```sbatch Terminal.sh```
+When all is done start with 
+```
+sbatch Terminal.sh
+```
 
 Changing the Network:
 -Modify the Network Training to be callable as a function returning the value that should be optimised for. (remember optimization always tries to minimize so for accuracy would be something like return(1-accuracy))
