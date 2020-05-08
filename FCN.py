@@ -83,7 +83,7 @@ class FCN(nn.Module):
         x = F.softmax(self.fc6(x))
         return x
 
-def Iteration(nLayers, batch_size, learning_rate,Nodes):
+def Iteration(nLayers, batch_size, learning_rate,Nodes,Parameters):
     #setting Variables
     n_epochs = Parameters["Epochs_FCN"]   
     test_accs = []
