@@ -9,21 +9,18 @@
 #SBATCH --array = 0-100%10 #Starts the same job multiple times: Starting amount-total amount%Parallel running jobs #allgpu supports maximum of 10 parallel jobs, that should be more than enough
 # --error ./Training/training-%j.err  #Saves a file with the errors, interesting for debugging
 # --mail-type END #sends a mail after finishing the job, currently off
-# --mail-user mail@url.de #i do not reccomend turning this on
+# --mail-user mail@url.de #Turning this on sends you an email at the end of the 100 jobs
 
  
 
  
 # source and load modules (GPU drivers, anaconda, .bashrc, etc)
-source ~/.bashrc  #should initiallize Anaconda/3
-source /etc/profile.d/modules.sh
+source ~/.bashrc  #should initiallize Anaconda/3 #if youre not using the maxwell cluster this may need adjustments
+source /etc/profile.d/modules.sh #also may need adjustments
 module load maxwell
 module load cuda
 
 conda activate FCN #Name of the environment
- 
-# go to your folder with your python scripts, change USER and NETWORK to ur name and the folder where all the stuff is
-cd /home/USER/NETWORK/
  
 # run
 python Core.py
