@@ -35,7 +35,7 @@ Changing the Network:
 -Make sure the network selected hyperparamters are the right type, most fitting would be at the start of the function.
 
 Reset:
-To Start another search either delete the Trials.p and Results.txt files or rename them. If The Terminal crashes somehow You need to adapt the maximum amounts of jobs the Terminal issues now. (already finished jobs is gained by looking at the Trials object)
+To Start another search either delete the Trials.p and Results.txt files or rename them. If The Terminal crashes somehow You need to adapt the maximum amounts of jobs the Terminal issues now. (Information about already finished jobs is gained by looking at the Trials object)
 ```
 print(len(list(Trials)))
 ```
