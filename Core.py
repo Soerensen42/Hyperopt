@@ -4,6 +4,8 @@ from hyperopt import fmin, tpe, hp, Trials, STATUS_OK,trials_from_docs
 from FCN import * #implements the FCN model change, when swapping networks
 import os
 import numpy as np
+import json
+import time
 
 ####################Input the parameters#########################
 Parameters={}
@@ -23,14 +25,15 @@ Parameters["data_location"]="./data"  #Path where all 3 files are saved
 Parameters["Epochs_FCN"]=10  #Amound of Epochs the FCN Trains for
 Parameters["WorstCase"]=1 #return the worst possible outcome for your network
 ####################Start of the Script##########################
-
+Accuracy=0
 def objective(args):
     #include Crashes in search history (for things like hardware limitations)
     try:
-        res = Iteration(*args,Parameters)
-        return(res) 
+        Accuracy = Iteration(*args,Parameters)
+        return(Accuracy) 
     except:
         #forwarding worst possible result to hyperopt when training crashes (since im optimizing for 1-Accuracy its 1)
+        Accuracy=Parameters["WorstCase"]
         return(Parameters["WorstCase"])
 
 #loading into the search history if it exists.
@@ -40,7 +43,7 @@ if os.path.exists('./History/Trials.p'):
 
 #running one Iteration of the Network
 best = fmin(objective,Parameters["space"],trials=trials_one,algo = tpe.suggest,max_evals=len(list(trials_one))+1) 
-
+best["Accuracy"]=1-Accuracy
 #Calling the Trials object in case there are new entries (there should be)
 if os.path.exists('./History/Trials.p'):
     trials_old = pickle.load(open("./History/Trials.p", "rb"))
@@ -51,8 +54,19 @@ else:
 #Adding the new search to the Trials object and saving it in the shared Trials file
 trials_new=trials_from_docs(list(trials_old)+[list(trials_one)[len(list(trials_one))-1]])   
 pickle.dump(trials_new, open("./History/Trials.p", "wb"))
-print("progress:",len(list(Trials)),"/",Parameters["Iterations"]) #show progress
+print("progress:{}/100".format(len(list(trials_new)))) #show progress
 
+best_old={"Accuracy":0}
+if os.path.exists('./Results.txt'):
+    with open('./Results.txt') as f:
+        best_old = json.load(f)
 #Saving the best params for in optimization use and result viewing
-with open('./Results.txt', 'w') as f:
-    json.dump(best, f)
+save=0
+if best_old["Accuracy"]<best["Accuracy"]:
+    while saved==0:
+        try:
+            with open('./Results.txt', 'w') as f:
+                json.dump(best, f)
+            saved=1    
+        except:
+            time.sleep(30)
