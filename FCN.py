@@ -12,9 +12,9 @@ import pandas
 from sklearn.metrics import roc_curve
 from sklearn.metrics import roc_auc_score
 
-def Load():
+def Load(Parameters):
   #loading in the 3 needed data sets
-  store_train= pandas.HDFStore('{data}/train.h5'.format(Parameters["data_location"]))
+  store_train= pandas.HDFStore('{}/train.h5'.format(Parameters["data_location"]))
   #if quick is set to 1: only read first 2000 entries (great for debugging/testing)
   if Parameters["Quick"]==1: 
       df_train = store_train.select("table", stop = 2000)  
@@ -25,7 +25,7 @@ def Load():
   #saving labels for accuracy calculation
   df_train_labels = df_train["is_signal_new"].to_numpy()
   
-  store_val = pandas.HDFStore('{data}/val.h5'.format(Parameters["data_location"]))
+  store_val = pandas.HDFStore('{}/val.h5'.format(Parameters["data_location"]))
   if Parameters["Quick"]==1:
       df_val = store_val.select("table", stop = 2000)
   else:
@@ -33,7 +33,7 @@ def Load():
   store_val.close()
   df_val_labels = df_val["is_signal_new"].to_numpy()
 
-  store_test = pandas.HDFStore('{data}/test.h5'.format(Parameters["data_location"]))
+  store_test = pandas.HDFStore('{}/test.h5'.format(Parameters["data_location"]))
   if Parameters["Quick"]==1:
       df_test = store_test.select("table", stop = 2000) 
   else:
@@ -59,6 +59,7 @@ def Load():
   vectors_train_labels = df_train["is_signal_new"].to_numpy()
 
   print('loading done')
+  return(vectors_val,vectors_val_labels,vectors_train,vectors_train_labels,df_test[cols].to_numpy(),df_test["is_signal_new"].to_numpy())
 
 class FCN(nn.Module):
     def __init__(self,Nodes,nLayers):
@@ -66,7 +67,11 @@ class FCN(nn.Module):
         
         #setting the FCN Layers, 
         self.fcstart = nn.Linear(80,Nodes)
-        self.fcmid = nn.Linear(Nodes,Nodes)
+        self.fc1 = nn.Linear(Nodes,Nodes)
+        self.fc2 = nn.Linear(Nodes,Nodes)
+        self.fc3 = nn.Linear(Nodes,Nodes)
+        self.fc4 = nn.Linear(Nodes,Nodes)
+        self.fc5 = nn.Linear(Nodes,Nodes)
         self.fcend = nn.Linear(Nodes,2)
         self.nLayers = nLayers
         
@@ -75,9 +80,16 @@ class FCN(nn.Module):
       	# Activating the First Layer
         x = F.relu(self.fcstart(x))
         # Activating the amount of Layers the variable nLayers dictates with a relu function
-        if nLayers > 0:
-            for i in range (1,self.nLayers):   
-                x = F.relu(self.fcmid(x))
+        if self.nLayers > 1:
+            x = F.relu(self.fc1(x))
+        if self.nLayers > 2:
+            x = F.relu(self.fc2(x))
+        if self.nLayers > 3:
+            x = F.relu(self.fc3(x))
+        if self.nLayers > 4:   
+            x = F.relu(self.fc4(x))
+        if self.nLayers > 5:   
+            x = F.relu(self.fc5(x))        
         #Using a softmax on the last layer to fit result between 0 and 1
         x = F.softmax(self.fcend(x))
         return x
@@ -86,6 +98,8 @@ def Iteration(nLayers, batch_size, learning_rate,Nodes,Parameters):
     #Moving everything to gpu
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')  
     #print(device) #debug
+    #load all the stuff
+    vectors_val,vectors_val_labels,vectors_train,vectors_train_labels,x_test,y_test=Load(Parameters)
     #setting Variables
     n_epochs = Parameters["Epochs_FCN"]   
     #Confirm variables are they right type 
@@ -136,15 +150,12 @@ def Iteration(nLayers, batch_size, learning_rate,Nodes,Parameters):
             net_out = model(x)
             
             #calcualting the loss
-            loss = nn.CrossEntropyLoss((net_out,y))
+            criterion = nn.CrossEntropyLoss()
+            loss = criterion(net_out,y)
             
             #creating new model (learning)
             loss.backward()
             optimizer.step()
-        
-    #using a different dataset to get accuracy     
-    x_test = df_test[cols].to_numpy()
-    y_test = df_test["is_signal_new"].to_numpy()
     
     #comparing the guessed values to the real ones
     y_pred_test_model = model(torch.tensor(x_test,dtype=torch.float).to(device)).detach().cpu()
@@ -153,4 +164,4 @@ def Iteration(nLayers, batch_size, learning_rate,Nodes,Parameters):
     
     
     #returning as 1-accuracy as hyperopt tries to minimize
-    return(1-test_acc) 
+    return(1-test_acc)
