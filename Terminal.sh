@@ -20,7 +20,7 @@ source /etc/profile.d/modules.sh #also may need adjustments
 module load maxwell
 module load cuda
 
-conda activate FCN #Name of the environment
+conda activate Hyperopt-env #Name of the environment
  
 # run
 python Core.py
