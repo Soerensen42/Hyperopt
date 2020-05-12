@@ -12,8 +12,6 @@ import pandas
 from sklearn.metrics import roc_curve
 from sklearn.metrics import roc_auc_score
 
-from params import *
-
 def Load():
   #loading in the 3 needed data sets
   store_train= pandas.HDFStore('{data}/train.h5'.format(Parameters["data_location"]))
@@ -138,7 +136,7 @@ def Iteration(nLayers, batch_size, learning_rate,Nodes,Parameters):
             net_out = model(x)
             
             #calcualting the loss
-            loss = nn.CrossEntropyLoss((net_out,y)
+            loss = nn.CrossEntropyLoss((net_out,y))
             
             #creating new model (learning)
             loss.backward()
